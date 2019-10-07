@@ -1,0 +1,98 @@
+﻿<Window x:Class="RsuLiraParser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RsuLiraParser"
+        mc:Ignorable="d"
+        Title="Преобразование РСУ Лира-САПР" 
+        MaxHeight="1080" MaxWidth="1920" SizeToContent="WidthAndHeight" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <Color x:Key="ColorGroup">#FF022EF5</Color>
+        <Color x:Key="ColorLabel">#FF17A608</Color>
+    </Window.Resources>
+    <Grid x:Name="mainGrid" Width="400" >
+        <StackPanel Margin="5">
+            <GroupBox Header="Выбор файлов исходных данных" FontSize="14">
+                <GroupBox.Foreground>
+                    <SolidColorBrush Color="{DynamicResource ColorGroup}"/>
+                </GroupBox.Foreground>
+                <StackPanel>
+                    <TextBlock Text="{Binding PatchRsu}" 
+                               FontSize="12" 
+                               TextWrapping="Wrap" 
+                               Foreground="#FF17A608"
+                               TextAlignment="Center"/>
+
+                    <Button Content="{Binding StatusReadRsu}"  Command="{Binding SelectRsuFile}"/>
+                    <TextBlock Text="{Binding PatchRsuL}" 
+                               FontSize="12" 
+                               TextWrapping="Wrap" 
+                               Foreground="#FF17A608"
+                               TextAlignment="Center"/>
+                    <Button Content="{Binding StatusReadRsuL}"  Command="{Binding SelectRsuLFile}"/>
+                    <TextBlock Text="{Binding PatchRsuN}" 
+                               FontSize="12" 
+                               TextWrapping="Wrap" 
+                               Foreground="#FF17A608"
+                               TextAlignment="Center"/>
+                    <Button Content="{Binding StatusReadRsuN}"  Command="{Binding SelectRsuNFile}"/>
+                    <TextBlock Text="{Binding PatchRsuNL}" 
+                               FontSize="12" 
+                               TextWrapping="Wrap" 
+                               Foreground="#FF17A608"
+                               TextAlignment="Center"/>
+                    <Button Content="{Binding StatusReadRsuNL}"  Command="{Binding SelectRsuNLFile}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Сохранение результатов" FontSize="14">
+                <GroupBox.Foreground>
+                    <SolidColorBrush Color="{DynamicResource ColorGroup}"/>
+                </GroupBox.Foreground>
+                <StackPanel >
+                    <TextBlock Text="{Binding PathXML}" 
+                               FontSize="12" 
+                               TextWrapping="Wrap" 
+                               Foreground="#FF17A608"
+                               TextAlignment="Center"/>
+                    <Button Content="{Binding StatusXML}"  Command="{Binding WriteRsuToXMLFile}"/>
+                    <Button Margin="0 15 0 0"
+                            Content="Создать базу данных SQLite"  
+                            Command="{Binding CreateSQLiteDb}"/>
+                    <TextBlock Text="{Binding PathSQLiteDB}" 
+                               FontSize="12" 
+                               TextWrapping="Wrap" 
+                               Foreground="#FF17A608"
+                               TextAlignment="Center"/>
+                    <Button x:Name="SQLsaveBtn" Content="{Binding StatusSQL}"  Command="{Binding SaveSQLiteDb}"/>
+                </StackPanel>
+            </GroupBox>
+            <Button x:Name="btCancel" Content="Сброс"  
+                    Command="{Binding UpdateFull}" 
+                    FontSize="14" 
+                    Background="#FF9FD7FD" 
+                    Width="auto"
+                    SizeChanged="pb_SizeChanged"/>
+            
+            <StatusBar x:Name="statusBar" Margin="0 3 0 0" >
+                <Grid>
+                    <ProgressBar x:Name="pbStatus" 
+                                 Minimum="0" 
+                                 Maximum="{Binding CountRsu}" 
+                                 Value="{Binding Counter}" 
+                                 Height="15" 
+                             Width="{Binding ElementName=mainGrid, Path=Width}"
+                                 HorizontalAlignment="Stretch"/>
+                    <TextBlock Text="{Binding ProgressHint}" HorizontalAlignment="Center"/>
+                </Grid>
+            </StatusBar>
+        </StackPanel>
+        
+    </Grid>
+</Window>
